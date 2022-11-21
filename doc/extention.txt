@@ -1,0 +1,13 @@
+Список необходимых плагинов:
+All Autocomplete
+Auto Complete Tag
+Code Runner
+Import Cost
+JavaScript (ES6) code snippets
+jshint
+Live Server
+Multiple clipboards for VSCode
+Reactjs code snippets
+Sass
+Theme - Oceanic Next
+vscode-icons
