@@ -42,3 +42,16 @@ personalMovieDB.movies[a] = b;
 personalMovieDB.movies[c] = d;
 
 console.log(personalMovieDB);
+
+// let dd = 'fsdffdsgdsf fdshdsh';
+// console.log(dd);
+// console.log(4/0);
+// console.log('dd'*9);
+
+const obj = {
+    name: 'John',
+    age: 34,
+    isMarried: false
+};
+
+console.log(obj.name);
