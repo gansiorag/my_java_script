@@ -42,3 +42,14 @@ personalMovieDB.movies[a] = b;
 personalMovieDB.movies[c] = d;
 
 console.log(personalMovieDB);
+
+let dd = {
+    name: 'John',
+    age : 25
+};
+
+console.log(dd.name);
+
+let arList = [12, 23, 24];
+
+console.log(arList[2]);

@@ -1,0 +1,1 @@
+nwbuild -p linux64 -o /media/al/BigData/Project_JS_My/my_java_script/ /media/al/BigData/Project_JS_My/my_java_script/
