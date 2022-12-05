@@ -43,6 +43,7 @@ personalMovieDB.movies[c] = d;
 
 console.log(personalMovieDB);
 
+<<<<<<< HEAD
 let dd = {
     name: 'John',
     age : 25
@@ -53,3 +54,17 @@ console.log(dd.name);
 let arList = [12, 23, 24];
 
 console.log(arList[2]);
+=======
+// let dd = 'fsdffdsgdsf fdshdsh';
+// console.log(dd);
+// console.log(4/0);
+// console.log('dd'*9);
+
+const obj = {
+    name: 'John',
+    age: 34,
+    isMarried: false
+};
+
+console.log(obj.name);
+>>>>>>> origin/HEAD
