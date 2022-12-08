@@ -1,0 +1,10 @@
+{
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "driver": "SQLite",
+            "name": "dbEtl",
+            "database": "/home/gansiorag/ДИТ_инфо/ProjectDIT/etldatadit/app/baseDataETL.db"
+        }
+    ]
+}
