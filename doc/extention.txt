@@ -1,7 +1,7 @@
-Список необходимых плагинов:
-All Autocomplete
-Auto Complete Tag
-Code Runner
+Список необходимых плагинов для JS:
+All Autocomplete - автоматическая подсказка продолжение кода
+Auto Complete Tag - автоматическое закрытие тегов и замена тега если меняеш его название закрывающийся тоже меняется
+Code Runner - 
 Import Cost
 JavaScript (ES6) code snippets
 jshint
