@@ -35,7 +35,8 @@ async def start_page(request: Request):
     return templates.TemplateResponse(
         "index.html",
         {
-            "request": request})
+            "request": request,
+            "menu": 'Test_load'})
 
 @app.post("/load_video/{code}", response_class=HTMLResponse)
 async def load_video(
@@ -62,3 +63,5 @@ async def load_video(
     )
     logger.info(f"load video {code}")
     logger.info(f"load video link_load {link_load}")
+    sleep(10)
+    logger.info(f"END -- load video link_load {link_load}")

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <style>
+        #myProgress {
+            width: 60%;
+            background-color: #ddd;
+        }
+
+        #myBar {
+            width: 0px;
+            height: 10px;
+            background-color: #04AA6D;
+        }
+    </style>
+    <script type="text/javascript">
+        var i = 0;
+        function move() {
+            var elem_mess = document.getElementById("mess");
+            elem_mess.innerHTML = "Загрузка и обработка видео началась";
+            // var llink = document.getElementByTagName('textarea');
+            // llink.value = "Привет!";
+            const textarea = document.getElementById('link_load');
+            textarea.innerHTML = 'New value';
+            if (i == 0) {
+                i = 1;
+                var elem = document.getElementById("myBar");
+                var width = 1;
+                var id = setInterval(frame, 600);
+                function frame() {
+                    if (width >= 600) {
+                        clearInterval(id);
+                        i = 0;
+                    } else {
+                        width = width + 5;
+                        elem.style.width = width + 'px';
+                    }
+                }
+            }
+        }  
+    </script>
+
+    <div class="row col-md-10 text-center">
+
+        <p></p>
+        <h3 id="mess">Start!</h3>
+        <p></p>
+    </div>
+    <p></p>
+    <form id="form_link_load" action="load_contetn" method="post">
+        <p><b>Введите ссылку:</b></p>
+        <p><textarea rows="2" cols="80" id="link_load" name="link_load">Ссылка</textarea></p>
+        <p></p>
+        <p><input type="submit" id="link_video" class="btn btn-primary btn-lg"
+                onclick="javascript: {form.action='/load_video/{{menu}}'; move();}" style="background: #005999;"
+                value="Загрузить"></p>
+        <div id="myProgress">
+            <div id="myBar"></div>
+        </div>
+
+    </form>
+</body>
+
+</html>
