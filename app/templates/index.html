@@ -8,27 +8,7 @@
 </head>
 
 <body>
-    <script type="text/javascript">
-    function load(event) {
-        event.preventDefault(); // Prevent the default form submission
 
-        const xhr = new XMLHttpRequest();
-        const fileInput = document.getElementById('fileInput');
-        const file = fileInput.files[0];
-        const progressDiv = document.getElementById('progress');
-
-        const formData = new FormData();
-        formData.append('file', file);
-
-        xhr.upload.addEventListener('progress', (e) => {
-            const percent = (e.loaded / e.total) * 100;
-            progressDiv.innerHTML = `Upload progress: ${percent}%`;
-        });
-
-        xhr.open('POST', 'http://localhost:4548', true);
-        xhr.send(formData);
-    }
-    </script>
 
     <div class="row col-md-10 text-center">
         <p></p>
@@ -36,12 +16,10 @@
         <p></p>
     </div>
     <p></p>
-    <div id="progress"></div>
-    <form id="form" action="load_content" method="post">
-        <p><input type="file" id="fileInput" name="fileInput"></p>
-        <p><input type="submit" id="link_video" class="btn btn-primary btn-lg"
-            onclick="load(event);" style="background: #005999;"
-            value="Загрузить"></p>
+    <form name="upload" action="/upload" method="post" enctype="multipart/form-data">
+        <label for="file">Select a file:</label> 
+        <input type="file" name="file" id="file"> 
+        <input type="submit" value="Upload"> 
     </form>
 </body>
 

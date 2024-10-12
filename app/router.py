@@ -6,7 +6,7 @@ from datetime import datetime as dt
 from time import sleep
 
 from fastapi.responses import HTMLResponse
-from fastapi import Request, Form
+from fastapi import Request, File, UploadFile
 from termcolor import colored
 import inspect
 
@@ -31,17 +31,13 @@ async def start_page(request: Request):
         _type_: _description_
     """
 
-
     return templates.TemplateResponse(
-        "index.html",
-        {
-            "request": request,
-            "menu": 'Test_load'})
+        "index.html", {"request": request, "menu": "Test_load"}
+    )
 
-@app.post("/load_video/{code}", response_class=HTMLResponse)
-async def load_video(
-    code, request: Request, link_load: str = Form()
-):  # function for start menu
+
+@app.post("/upload", response_class=HTMLResponse)
+async def load_video(file: UploadFile = File()):  # function for start menu
     """roter regims works with sources
 
     Args:
@@ -61,7 +57,12 @@ async def load_video(
             "red",
         )
     )
-    logger.info(f"load video {code}")
-    logger.info(f"load video link_load {link_load}")
-    sleep(10)
-    logger.info(f"END -- load video link_load {link_load}")
+    logger.info(f"load video link_load {file}")
+    file_path = "/home/al/Project_JS_My/my_java_script/app/templates"
+    if not os.path.exists(file_path):
+        os.makedirs(file_path)
+    file_name = file.filename
+    file_path = os.path.join(file_path, file_name)
+    with open(file_path, "wb") as f:
+        f.write(await file.read())
+    logger.info(f"END -- load video link_load {file}")

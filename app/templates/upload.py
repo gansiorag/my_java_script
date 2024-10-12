@@ -10,7 +10,7 @@ filename = os.path.basename(file.filename)
 file_extension = os.path.splitext(filename)[1]
 
 # Save the file to a directory on the server
-with open(os.path.join("uploads", filename), "wb") as f:
+with open(filename, "wb") as f:
     f.write(file.value)
 
 print("Content-type:text/html\r\n\r\n")
