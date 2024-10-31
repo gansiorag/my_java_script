@@ -86,6 +86,9 @@ h2 {
       visibility: visible; }
 
 /* Custom Checkbox */
+.table td, .table th {
+  border: 1px solid #c9c2c2;
+}
 .control {
   display: block;
   position: relative;
