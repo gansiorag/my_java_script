@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <script defer src="js/bootstrap.bundle.min.js"></script>
+    <title>Демо модального окна Bootstrap 5</title>
+</head>
+<body>
+
+    <textarea> Это начало документа </textarea>
+    <div class="container py-3 text-center">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal"
+        onclick="javascript: populatePre('content/6629483a014333e1e2b4760711d96d5fbfc84817b6ac79f57b92abea8a12f08b')">
+          Открыть модальное окно
+        </button>
+      </div>
+    
+      <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Информация</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" ></button>
+              <!-- onclick="javascript: populatePre('content/6629483a014333e1e2b4760711d96d5fbfc84817b6ac79f57b92abea8a12f08b')"></button> -->
+            </div>
+            <div class="modal-body">
+
+                <pre id="contents"></pre>
+
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary">Да, хочу</button>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Нет, спасибо</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script>
+        function populatePre(url) {
+            var xhr = new XMLHttpRequest();
+
+            // Configure it: POST-request for the URL /get_file
+            xhr.open("POST", "http://0.0.0.0:4545/get_file", true);
+
+            // Set the request header to indicate that we are sending JSON data
+            xhr.setRequestHeader("Content-Type", "application/json; charset=UTF-8");
+
+            // Create the data to send in the request body
+            let id = url.split('/')[1];  // Extract the ID from the URL
+            const requestData = {
+                sql: `SELECT full_path FROM text_all.text_simple WHERE file_id_simple = '${id}'`
+            };
+
+            // Set up a function to handle the response
+            xhr.onload = function () {
+                if (xhr.status >= 200 && xhr.status < 300) {
+                    try {
+                        const response = JSON.parse(xhr.responseText);
+                        console.log(response);
+                        // Check if full_path exists in the response
+                        if (response.data) {
+                            document.getElementById('contents').textContent = response.data;
+                        } else {
+                            document.getElementById('contents').textContent = 'No data found.';
+                        }
+                    } catch (e) {
+                        console.error('Error parsing JSON:', e);
+                    }
+                } else {
+                    console.error(`Error: ${xhr.status} - ${xhr.statusText}`);
+                }
+            };
+
+            // Handle network errors
+            xhr.onerror = function () {
+                console.error("Network error");
+            };
+
+            // Send the request with the JSON data
+            xhr.send(JSON.stringify(requestData));
+        }
+    </script>
+</body>
+</html>
