@@ -1,0 +1,191 @@
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  background-color: #f5f7fa;
+}
+
+/* Главный заголовок */
+.main-header {
+  text-align: center;
+  padding: 15px 0;
+}
+
+.main-header h1 {
+  margin: 0 0 12px 0;
+  font-size: 28px;
+  color: #2c3e50;
+  font-weight: 600;
+}
+
+/* Горизонтальное меню */
+.top-menu {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.top-menu button {
+  padding: 8px 16px;
+  background-color: #718096;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.top-menu button:hover {
+  background-color: #4a5568;
+}
+
+.tables-row {
+  display: flex;
+  gap: 20px;
+}
+
+.section {
+  flex: 1;
+  border: 1px solid #cbd5e0;
+  padding: 16px;
+  border-radius: 10px;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.section h3 {
+  margin-top: 0;
+  color: #2d3748;
+  font-size: 18px;
+}
+
+/* Форма добавления промпта */
+.prompt-add-form {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+  align-items: center;
+}
+
+.prompt-add-form input {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid #cbd5e0;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.prompt-add-form input:focus {
+  outline: none;
+  border-color: #3182ce;
+  box-shadow: 0 0 0 2px rgba(49, 130, 206, 0.2);
+}
+
+.prompt-add-form button {
+  padding: 8px 14px;
+  background-color: #4299e1;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.prompt-add-form button:hover {
+  background-color: #3182ce;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 10px;
+}
+
+th, td {
+  padding: 10px 8px;
+  text-align: left;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+th {
+  background-color: #f8fafc;
+  color: #4a5568;
+  font-weight: 600;
+}
+
+button#submitBtn {
+  padding: 12px 24px;
+  background-color: #38a169;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: 600;
+  align-self: center;
+  width: fit-content;
+}
+
+button#submitBtn:hover {
+  background-color: #2f855a;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.pagination button {
+  padding: 5px 10px;
+  font-size: 14px;
+  background-color: #edf2f7;
+  border: 1px solid #e2e8f0;
+  border-radius: 4px;
+  cursor: pointer;
+  color: #2d3748;
+}
+
+.pagination button.active {
+  background-color: #4299e1;
+  color: white;
+  border-color: #3182ce;
+}
+
+.prompt-cell {
+  max-width: 150px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#resultBox {
+  padding: 16px;
+  border: 1px solid #68d391;
+  border-radius: 10px;
+  background-color: #f0fdf4;
+  max-width: 800px;
+  align-self: center;
+  width: 100%;
+}
+
+#resultContent {
+  margin-top: 12px;
+  padding: 12px;
+  background: white;
+  border-radius: 6px;
+  min-height: 24px;
+  font-family: monospace;
+  white-space: pre-wrap;
+  line-height: 1.5;
+  color: #2d3748;
+}

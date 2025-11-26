@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Выбор моделей и промптов</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      display: flex;
+      gap: 20px;
+    }
+
+    .section {
+      flex: 1;
+      border: 1px solid #ccc;
+      padding: 15px;
+      border-radius: 8px;
+      background-color: #f9f9f9;
+    }
+
+    .section h3 {
+      margin-top: 0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 10px;
+    }
+
+    th, td {
+      padding: 8px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #eee;
+    }
+
+    button {
+      padding: 8px 16px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Выбор модели -->
+  <div class="section">
+    <h3>Модели</h3>
+    <table id="modelTable">
+      <thead>
+        <tr>
+          <th><input type="checkbox" id="selectAllModels"></th>
+          <th>Модель</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><input type="checkbox" name="model" value="modelA"></td><td>Model A</td></tr>
+        <tr><td><input type="checkbox" name="model" value="modelB"></td><td>Model B</td></tr>
+        <tr><td><input type="checkbox" name="model" value="modelC"></td><td>Model C</td></tr>
+      </tbody>
+    </table>
+    <button onclick="sendSelection('models')">Выбрать</button>
+  </div>
+
+  <!-- Выбор промптов -->
+  <div class="section">
+    <h3>Промпты</h3>
+    <table id="promptTable">
+      <thead>
+        <tr>
+          <th><input type="checkbox" id="selectAllPrompts"></th>
+          <th>Промпт</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><input type="checkbox" name="prompt" value="prompt1"></td><td>Промпт 1</td></tr>
+        <tr><td><input type="checkbox" name="prompt" value="prompt2"></td><td>Промпт 2</td></tr>
+        <tr><td><input type="checkbox" name="prompt" value="prompt3"></td><td>Промпт 3</td></tr>
+      </tbody>
+    </table>
+    <button onclick="sendSelection('prompts')">Выбрать</button>
+  </div>
+
+  <!-- Выбор промптов 2 -->
+  <div class="section">
+    <h3>Промпты 2</h3>
+    <table id="prompt2Table">
+      <thead>
+        <tr>
+          <th><input type="checkbox" id="selectAllPrompts2"></th>
+          <th>Промпт 2</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><input type="checkbox" name="prompt2" value="prompt2_1"></td><td>Промпт 2-1</td></tr>
+        <tr><td><input type="checkbox" name="prompt2" value="prompt2_2"></td><td>Промпт 2-2</td></tr>
+        <tr><td><input type="checkbox" name="prompt2" value="prompt2_3"></td><td>Промпт 2-3</td></tr>
+      </tbody>
+    </table>
+    <button onclick="sendSelection('prompts2')">Выбрать</button>
+  </div>
+
+  <script>
+    // Управление "Выбрать всё"
+    document.querySelectorAll('input[type="checkbox"][id^="selectAll"]').forEach(checkbox => {
+      checkbox.addEventListener('change', function() {
+        const tableId = this.id.replace('selectAll', '');
+        const rows = document.querySelectorAll(`input[name="${tableId.toLowerCase()}"]`);
+        rows.forEach(row => row.checked = this.checked);
+      });
+    });
+
+    // Отправка выбранных значений
+    async function sendSelection(section) {
+      let nameAttr;
+      let sectionName;
+
+      switch(section) {
+        case 'models':
+          nameAttr = 'model';
+          sectionName = 'models';
+          break;
+        case 'prompts':
+          nameAttr = 'prompt';
+          sectionName = 'prompts';
+          break;
+        case 'prompts2':
+          nameAttr = 'prompt2';
+          sectionName = 'prompts2';
+          break;
+        default:
+          return;
+      }
+
+      const selected = Array.from(document.querySelectorAll(`input[name="${nameAttr}"]:checked`))
+                            .map(cb => cb.value);
+
+      if (selected.length === 0) {
+        alert('Пожалуйста, выберите хотя бы один элемент.');
+        return;
+      }
+
+      const payload = {
+        [sectionName]: selected
+      };
+
+      try {
+        const response = await fetch('/execute', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(payload)
+        });
+
+        if (response.ok) {
+          alert(`✅ ${sectionName} отправлены успешно!`);
+        } else {
+          alert('❌ Ошибка при отправке данных.');
+        }
+      } catch (error) {
+        console.error('Ошибка:', error);
+        alert('❌ Не удалось отправить запрос.');
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Выбор модели и промптов</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      display: flex;
+      gap: 20px;
+    }
+
+    .section {
+      flex: 1;
+      border: 1px solid #ccc;
+      padding: 15px;
+      border-radius: 8px;
+      background-color: #f9f9f9;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .section h3 {
+      margin-top: 0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 10px;
+    }
+
+    th, td {
+      padding: 8px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #eee;
+    }
+
+    button {
+      padding: 8px 16px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-top: auto;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    .pagination {
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+      margin-top: 10px;
+    }
+
+    .pagination button {
+      margin: 0;
+      font-size: 14px;
+      padding: 4px 8px;
+    }
+
+    .pagination button.active {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Модели -->
+  <div class="section">
+    <h3>Модели</h3>
+    <table id="modelTable">
+      <thead>
+        <tr><th></th><th>Модель</th></tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    <div class="pagination" id="modelPagination"></div>
+    <button onclick="submitSelection('model')">Выбрать</button>
+  </div>
+
+  <!-- Промпты -->
+  <div class="section">
+    <h3>Промпты</h3>
+    <table id="promptTable">
+      <thead>
+        <tr><th></th><th>Промпт</th></tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    <div class="pagination" id="promptPagination"></div>
+    <button onclick="submitSelection('prompt')">Выбрать</button>
+  </div>
+
+  <!-- Промпты 2 -->
+  <div class="section">
+    <h3>Промпты 2</h3>
+    <table id="prompt2Table">
+      <thead>
+        <tr><th></th><th>Промпт 2</th></tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    <div class="pagination" id="prompt2Pagination"></div>
+    <button onclick="submitSelection('prompt2')">Выбрать</button>
+  </div>
+
+  <script>
+    // Генерация данных
+    function generateItems(prefix, count = 15) {
+      return Array.from({ length: count }, (_, i) => ({
+        id: `${prefix}_${i + 1}`,
+        name: `${prefix.toUpperCase()} ${i + 1}`
+      }));
+    }
+
+    const modelData = generateItems('model');
+    const promptData = generateItems('prompt');
+    const prompt2Data = generateItems('prompt2');
+
+    // Управление состоянием: выбранная строка на таблицу
+    const selections = {
+      model: null,
+      prompt: null,
+      prompt2: null
+    };
+
+    // Рендер таблицы с пагинацией
+    function renderTable(section, data, page = 1, perPage = 5) {
+      const tbody = document.querySelector(`#${section}Table tbody`);
+      const paginationEl = document.getElementById(`${section}Pagination`);
+
+      const start = (page - 1) * perPage;
+      const end = start + perPage;
+      const pageData = data.slice(start, end);
+      const totalPages = Math.ceil(data.length / perPage);
+
+      // Очистка
+      tbody.innerHTML = '';
+      paginationEl.innerHTML = '';
+
+      // Заполнение строк
+      pageData.forEach(item => {
+        const tr = document.createElement('tr');
+        const tdCheck = document.createElement('td');
+        const cb = document.createElement('input');
+        cb.type = 'checkbox';
+        cb.value = item.id;
+        cb.checked = selections[section] === item.id;
+
+        cb.addEventListener('change', () => {
+          // Сбросить все чекбоксы в этой таблице
+          document.querySelectorAll(`#${section}Table input[type="checkbox"]`).forEach(el => {
+            if (el !== cb) el.checked = false;
+          });
+          selections[section] = cb.checked ? item.id : null;
+        });
+
+        tdCheck.appendChild(cb);
+        const tdName = document.createElement('td');
+        tdName.textContent = item.name;
+        tr.appendChild(tdCheck);
+        tr.appendChild(tdName);
+        tbody.appendChild(tr);
+      });
+
+      // Пагинация
+      for (let i = 1; i <= totalPages; i++) {
+        const btn = document.createElement('button');
+        btn.textContent = i;
+        btn.className = i === page ? 'active' : '';
+        btn.onclick = () => renderTable(section, data, i, perPage);
+        paginationEl.appendChild(btn);
+      }
+    }
+
+    // Отправка на бэкенд
+    async function submitSelection(section) {
+      const selected = selections[section];
+      if (!selected) {
+        alert(`Пожалуйста, выберите элемент в разделе "${section === 'model' ? 'Модели' : section === 'prompt' ? 'Промпты' : 'Промпты 2'}".`);
+        return;
+      }
+
+      const payload = { [`${section}_id`]: selected };
+
+      try {
+        const res = await fetch('/execute', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        if (res.ok) {
+          alert(`✅ Выбрано: ${selected}`);
+        } else {
+          alert('❌ Ошибка на сервере');
+        }
+      } catch (e) {
+        console.error(e);
+        alert('❌ Не удалось отправить запрос');
+      }
+    }
+
+    // Инициализация
+    document.addEventListener('DOMContentLoaded', () => {
+      renderTable('model', modelData);
+      renderTable('prompt', promptData);
+      renderTable('prompt2', prompt2Data);
+    });
+  </script>
+</body>
+</html>

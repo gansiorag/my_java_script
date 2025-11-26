@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Работа с LLM</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Главный заголовок -->
+  <header class="main-header">
+    <h1>Работа с LLM</h1>
+    <!-- Горизонтальное меню -->
+    <nav class="top-menu">
+      <button id="aboutBtn">О программе</button>
+      <button id="adminBtn">Админка</button>
+    </nav>
+  </header>
+
+  <div class="tables-row">
+    <!-- Модели -->
+    <div class="section">
+      <h3>Модели</h3>
+      <table id="modelTable">
+        <thead><tr><th></th><th>Модель</th></tr></thead>
+        <tbody></tbody>
+      </table>
+      <div class="pagination" id="modelPagination"></div>
+    </div>
+
+    <!-- Промпты -->
+    <div class="section">
+      <h3>Промпты</h3>
+      <div class="prompt-add-form">
+        <input type="text" id="newPromptInput" placeholder="Введите новый промпт..." maxlength="200">
+        <button id="addPromptBtn">Добавить</button>
+      </div>
+      <table id="promptTable">
+        <thead><tr><th></th><th>Промпт</th></tr></thead>
+        <tbody></tbody>
+      </table>
+      <div class="pagination" id="promptPagination"></div>
+    </div>
+
+    <!-- Промпты 2 -->
+    <div class="section">
+      <h3>Промпты 2</h3>
+      <div class="prompt-add-form">
+        <input type="text" id="newPrompt2Input" placeholder="Введите новый промпт 2..." maxlength="200">
+        <button id="addPrompt2Btn">Добавить</button>
+      </div>
+      <table id="prompt2Table">
+        <thead><tr><th></th><th>Промпт 2</th></tr></thead>
+        <tbody></tbody>
+      </table>
+      <div class="pagination" id="prompt2Pagination"></div>
+    </div>
+  </div>
+
+  <button id="submitBtn">Выбрать</button>
+
+  <div id="resultBox">
+    <h3>Результат выбора</h3>
+    <div id="resultContent">Ничего не выбрано</div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
